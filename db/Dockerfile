@@ -1,0 +1,8 @@
+FROM mongo
+
+ENV MONGO_INITDB_ROOT_USERNAME=admin
+ENV MONGO_INITDB_ROOT_PASSWORD=secretpassword
+
+EXPOSE 27017
+
+CMD ["mongod"]

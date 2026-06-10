@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    networks:
+      - mynet
+    environment:
+      - MONGO_URI=mongodb://admin:secretpassword@mongodb:27017/notes_app?authSource=admin
+    depends_on:
+      - mongodb
+  frontend:
+    build: ./frontend
+    networks:
+      - mynet
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+  mongodb:
+    image: mongo:latest
+    networks:
+      - mynet
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=secretpassword
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
+  
+networks:
+  mynet:
+    driver: bridge
